@@ -1,4 +1,6 @@
 namespace PrimeService.Tests;
+
+using Microsoft.VisualBasic;
 using Prime.Services;
 
 public class PrimeService_IsPrimeShould
@@ -16,7 +18,17 @@ public class PrimeService_IsPrimeShould
     public void IsPrime_LessThan2_ReturnFalse(int value)
     {
             var result = _primeService.IsPrime(value);
-            Assert.False(result, "1 should not be prime");
+            Assert.False(result, $"{value} should not be prime");
 
+    }
+
+    [Theory]
+    [InlineData(3)]
+    [InlineData(7)]
+    [InlineData(11)]
+    public void IsPrime_ReturnTrue(int value)
+    {
+        var result = _primeService.IsPrime(value);
+        Assert.True(result, "3 should be prime");
     }
 }
