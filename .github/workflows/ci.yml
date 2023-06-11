@@ -2,8 +2,6 @@ name: Build and Test
 
 on:
     push:
-        branches:
-            - "*"
     pull_request:
         branches:
             - main
@@ -22,6 +20,11 @@ jobs:
         steps:
             - name: checkout repository
               uses: actions/checkout@v2
+            
+            #check the github branch base branch
+            - name: print branch name
+              run: |
+                echo branch name is ${{ github.base_ref }}
 
             - name: setup .net${{ matrix.dotnet-version }}
               uses: actions/setup-dotnet@v1
@@ -43,3 +46,9 @@ jobs:
                 name: dotnet-results-${{ matrix.dotnet-version }}
                 path: TestResults-${{ matrix.dotnet-version }}
               if: ${{ always() }}
+              
+            - name: change version
+              run: |
+                dotnet tool install -g dotnet-version-cli
+                dotnet version -f ./PrimeService/PrimeService.csproj patch
+              if: ${{ github.ref == 'refs/heads/main' }}
