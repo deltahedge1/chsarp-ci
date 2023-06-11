@@ -46,3 +46,9 @@ jobs:
                 name: dotnet-results-${{ matrix.dotnet-version }}
                 path: TestResults-${{ matrix.dotnet-version }}
               if: ${{ always() }}
+              
+            - name: change version
+              run: |
+                dotnet tool install -g dotnet-version-cli
+                dotnet version -f ./PrimeService/PrimeService.csproj patch
+              if: ${{ github.ref == 'refs/heads/main' }}
