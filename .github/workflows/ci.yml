@@ -20,7 +20,8 @@ jobs:
         steps:
             - name: checkout repository
               uses: actions/checkout@v2
-
+            
+            #check the github branch base branch
             - name: print branch name
               run: |
                 echo branch name is ${{ github.base_ref }}
