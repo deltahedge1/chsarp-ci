@@ -35,4 +35,11 @@ jobs:
               run: dotnet build --configuration Release
 
             - name: run tests
-              run: dotnet test --configuration Release --no-build
+              run: dotnet test --logger trx --results-directory "TestResults-${{ matrix.dotnet-version }}"
+
+            - name: upload .net test results
+              uses: actions/upload-artifact@v3
+              with:
+                name: dotnet-results-${{ matrix.dotnet-version }}
+                path: TestResults-${{ matrix.dotnet-version }}
+              if: ${{ always() }}
